@@ -201,10 +201,10 @@ input[type="file"] { margin: 8px 0; color: var(--muted); max-width: 100%; }
   <div class="grid-2">
     <fieldset>
       <legend>WAF</legend>
-      <label for="slotsWaf">Storage slots per rack (units)</label>
+      <label for="slotsWaf">Storage slots per Section (units)</label>
       <input type="number" id="slotsWaf" value="24" min="1" step="1">
-      <p class="hint">Per row: Needed = Daily max ÷ slots/rack; Proposal = ceil(Needed). Capacity vs owned uses Σ(4 × Proposal) on WAF (four sub-parts per color).</p>
-      <label for="ownedWaf" style="margin-top:10px;">Total owned racks (WAF)</label>
+      <p class="hint">Per row: Needed = Daily max ÷ slots/Section; Proposal = ceil(Needed). Capacity vs owned uses Σ(4 × Proposal) on WAF (four sub-parts per color).</p>
+      <label for="ownedWaf" style="margin-top:10px;">Total owned Sections (WAF)</label>
       <input type="number" id="ownedWaf" value="300" min="0" step="1">
     </fieldset>
     <fieldset>
@@ -231,8 +231,8 @@ input[type="file"] { margin: 8px 0; color: var(--muted); max-width: 100%; }
 
   <div class="charts-row" id="chartsRow" style="display:none;">
     <div class="chart-wrap">
-      <h3>WAF — needed vs owned racks by target CW</h3>
-      <canvas id="chartWaf" aria-label="WAF rack chart"></canvas>
+      <h3>WAF — needed vs owned Sections by target CW</h3>
+      <canvas id="chartWaf" aria-label="WAF needed vs owned sections chart"></canvas>
     </div>
     <div class="chart-wrap">
       <h3>Rocker — needed vs owned racks by target CW</h3>
@@ -790,7 +790,7 @@ function buildDashboard(rackSummaryRows, meta, detailByCw) {
         kpi.innerHTML = `
       <div class="kpi-card"><div class="label">Projected scenarios</div><div class="value">${rackSummaryRows.length}</div><div class="sub">Sheets × target CWs</div></div>
       <div class="kpi-card"><div class="label">Forecast horizon</div><div class="value">${meta.cwCount}</div><div class="sub">CW columns found</div></div>
-      <div class="kpi-card"><div class="label">WAF max gap</div><div class="value" style="color:${maxGapWaf > 0 ? "var(--danger)" : "var(--ok)"}">${maxGapWaf}</div><div class="sub">racks (needed − owned)</div></div>
+      <div class="kpi-card"><div class="label">WAF max gap</div><div class="value" style="color:${maxGapWaf > 0 ? "var(--danger)" : "var(--ok)"}">${maxGapWaf}</div><div class="sub">Sections (needed − owned)</div></div>
       <div class="kpi-card"><div class="label">Rocker max gap</div><div class="value" style="color:${maxGapRocker > 0 ? "var(--danger)" : "var(--ok)"}">${maxGapRocker}</div><div class="sub">racks (needed − owned)</div></div>
     `;
     }
@@ -884,7 +884,7 @@ function buildDashboard(rackSummaryRows, meta, detailByCw) {
         });
     }
 
-    function barChart(canvasId, rows, ownedDefault, label) {
+    function barChart(canvasId, rows, ownedDefault, lineLabel) {
         const byCw = {};
         rows.forEach(r => {
             const cw = r.TargetCW;
@@ -896,14 +896,17 @@ function buildDashboard(rackSummaryRows, meta, detailByCw) {
         const needed = labels.map(cw => Math.max(...byCw[cw].need));
         const owned = labels.map(cw => Math.max(...byCw[cw].own));
 
+        const needLegend = lineLabel === "WAF" ? "Needed Sections" : "Needed racks";
+        const ownLegend = lineLabel === "WAF" ? "Owned Sections" : "Owned racks";
+
         const ctx = document.getElementById(canvasId).getContext("2d");
         return new Chart(ctx, {
             ...ChartCfg,
             data: {
                 labels,
                 datasets: [
-                    { label: "Needed racks", data: needed, backgroundColor: "rgba(61,139,253,0.75)" },
-                    { label: "Owned racks", data: owned, backgroundColor: "rgba(62,207,142,0.55)" }
+                    { label: needLegend, data: needed, backgroundColor: "rgba(61,139,253,0.75)" },
+                    { label: ownLegend, data: owned, backgroundColor: "rgba(62,207,142,0.55)" }
                 ]
             }
         });
