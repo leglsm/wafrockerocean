@@ -619,11 +619,10 @@ function buildGrid(){
   for(let i=15;i<=17;i++) grid['B'][i]={sub:'G05PRIME',color:'PRIMER',side:'RH',colors:['PRIMER']};
 
   // 3. CDEF stacking — per-group split, no sync, no gaps
-  // Each group: build flat slot list, split front->CD, back->EF
+  // Each group: flat slot list -> front cdCount slots to CD, back efCount slots to EF
   // Odd groups alternate which side gets the extra slot
-  // No cursor sync — each cursor just advances, guaranteed no empty rows
   var cdRow=0, efRow=0;
-  var lastExtra='ef'; // first odd group gives extra to CD
+  var lastExtra='ef';
 
   function stackGroup(sub, filterFn){
     var slots=[];
@@ -644,18 +643,18 @@ function buildGrid(){
       cdCount=total>>1; efCount=total>>1;
     }
 
-    // CD gets slots[0..cdCount-1]
+    // CD: slots[0 .. cdCount-1]
     for(var ci=0; ci<cdCount && cdRow<MAX; ci++){
-      var s=slots[ci];
-      grid['C'][cdRow]=Object.assign({},s,{side:'RH'});
-      grid['D'][cdRow]=Object.assign({},s,{side:'LH'});
+      var sCD=slots[ci];
+      grid['C'][cdRow]=Object.assign({},sCD,{side:'RH'});
+      grid['D'][cdRow]=Object.assign({},sCD,{side:'LH'});
       cdRow++;
     }
-    // EF gets slots[cdCount..total-1]
+    // EF: slots[cdCount .. total-1]
     for(var ei=0; ei<efCount && efRow<MAX; ei++){
-      var s=slots[cdCount+ei];
-      grid['E'][efRow]=Object.assign({},s,{side:'RH'});
-      grid['F'][efRow]=Object.assign({},s,{side:'LH'});
+      var sEF=slots[cdCount+ei];
+      grid['E'][efRow]=Object.assign({},sEF,{side:'RH'});
+      grid['F'][efRow]=Object.assign({},sEF,{side:'LH'});
       efRow++;
     }
   }
@@ -1080,5 +1079,3 @@ window.addEventListener('load',function(){
 </script>
 </body>
 </html>
-rocker_layout_dashboard_v6-4.html
-Displaying rocker_layout_dashboard_v6-4.html.
