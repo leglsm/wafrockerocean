@@ -34,14 +34,14 @@ tr:hover td{background:rgba(255,255,255,0.03);}
 .prog-tag{display:inline-block;padding:1px 5px;border-radius:3px;font-size:0.58rem;font-weight:bold;}
 .comment-cell{color:var(--muted);font-size:0.68rem;}
 .loc-cell{font-family:monospace;font-size:0.68rem;color:var(--yellow);}.loc-new{color:var(--green)!important;}
-
+ 
 /* ── Layout grid ── */
 .layout-controls{display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap;}
 .legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
 .legend-item{display:flex;align-items:center;gap:4px;font-size:0.6rem;color:var(--muted);}
 .legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
 .rack-outer{overflow-x:auto;overflow-y:auto;padding:8px;background:#f1f5f9;border-radius:6px;text-align:center;}
-
+ 
 /* Row-based grid: each row = one horizontal strip across all columns */
 .rack-table{border-collapse:separate;border-spacing:1px 1px;}
 .rack-table th.col-hdr{
@@ -65,7 +65,7 @@ tr:hover td{background:rgba(255,255,255,0.03);}
 }
 /* Absent cell (A/Z below row 18) */
 .rack-table td.absent{width:88px;}
-
+ 
 .slot-label{
   width:56px;vertical-align:middle;padding:0 2px;white-space:nowrap;
   font-size:0.48rem;font-weight:700;color:#334155;line-height:1.15;
@@ -97,7 +97,7 @@ tr:hover td{background:rgba(255,255,255,0.03);}
 .slot .s-colors span{display:block;font-size:0.6rem;font-weight:700;line-height:1.25;}
 .slot.empty{background:#dde3ea;border-bottom:2px solid #b8c0ca;border-top:1px solid #f0f3f6;}
 .slot.empty .s-color{color:#a8b4bf;}
-
+ 
 /* Program themes — light pastel backgrounds, vivid color text */
 .p-g06 {background:#c7deff;}
 .p-g07mp{background:#ddd6fe;}
@@ -110,7 +110,7 @@ tr:hover td{background:rgba(255,255,255,0.03);}
 </style>
 </head>
 <body>
-
+ 
 <!-- LOGIN OVERLAY -->
 <div id="loginOverlay" style="
   position:fixed;inset:0;background:#0d1117;z-index:9999;
@@ -125,7 +125,7 @@ tr:hover td{background:rgba(255,255,255,0.03);}
       <div style="font-size:1.3rem;font-weight:bold;color:#58a6ff;letter-spacing:1px;">PERM Dashboard</div>
       <div style="font-size:0.6rem;color:#7d8590;margin-top:4px;">Oct 2026 Capacity Planning</div>
     </div>
-
+ 
     <div style="margin-bottom:14px;">
       <label style="font-size:0.65rem;color:#7d8590;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:5px;">User ID</label>
       <input id="loginId" type="text" placeholder="Enter ID"
@@ -148,7 +148,7 @@ tr:hover td{background:rgba(255,255,255,0.03);}
     <div id="loginError" style="color:#f85149;font-size:0.7rem;text-align:center;margin-top:10px;display:none;">
       Invalid credentials. Please try again.
     </div>
-
+ 
     <!-- Security notice -->
     <div style="
       margin-top:24px;padding:12px;background:#0d1117;border-radius:5px;
@@ -161,10 +161,10 @@ tr:hover td{background:rgba(255,255,255,0.03);}
     </div>
   </div>
 </div>
-
+ 
 <!-- MAIN APP (hidden until login) -->
 <div id="mainApp" style="display:none;">
-
+ 
 <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
   <h1 style="margin:0;">Rocker Layout Dashboard</h1>
   <button class="btn-sec" onclick="toggleHeader()" id="headerToggleBtn" style="font-size:0.6rem;padding:3px 10px;margin-left:auto;">&#9650; Compact</button>
@@ -177,9 +177,9 @@ tr:hover td{background:rgba(255,255,255,0.03);}
   <div class="tab" onclick="switchTab('layout')">Rack Layout — Oct 2026</div>
   <div class="tab" onclick="switchTab('current')">Current Layout</div>
   <div class="tab" onclick="switchTab('locations')">New Locations</div>
-
+ 
 </div>
-
+ 
 <!-- TABLE TAB -->
 <div id="table-tab" class="tab-content active">
   <div class="paste-section">
@@ -220,7 +220,7 @@ tr:hover td{background:rgba(255,255,255,0.03);}
     </tr></thead><tbody id="mainBody"></tbody></table>
   </div>
 </div>
-
+ 
 <!-- LAYOUT TAB -->
 <div id="layout-tab" class="tab-content">
   <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">
@@ -286,12 +286,12 @@ tr:hover td{background:rgba(255,255,255,0.03);}
       </div>
     </div>
   </div>
-
+ 
   <div style="margin-top:8px;color:var(--muted);font-size:0.6rem;">
     ⚠ XNF (G65MP) rockers do not fit in old Volvo racks &nbsp;·&nbsp; A/Z columns begin at row 18 (physical start) &nbsp;·&nbsp; Hover slot for detail
   </div>
 </div>
-
+ 
 <!-- CURRENT LAYOUT TAB -->
 <div id="current-tab" class="tab-content">
   <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">
@@ -322,7 +322,7 @@ tr:hover td{background:rgba(255,255,255,0.03);}
     Current layout based on CUR_LOCS data (CW23 base) &nbsp;·&nbsp; XNF rockers do not fit in old Volvo racks
   </div>
 </div>
-
+ 
 <!-- LOCATIONS TAB -->
 <div id="locations-tab" class="tab-content">
   <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center;">
@@ -336,7 +336,7 @@ tr:hover td{background:rgba(255,255,255,0.03);}
     </tr></thead><tbody id="locBody"></tbody></table>
   </div>
 </div>
-
+ 
 <script>
 // ═══════════════════════════════════════════════════
 // CURRENT LOCATIONS
@@ -483,7 +483,7 @@ const CUR_LOCS=[
   [55120140,"SP ROCK PNL LH G07MP PNPRIME","F34"],
   [55120141,"SP ROCK PNL RH G07MP PNPRIME","E34"],
 ];
-
+ 
 // ═══════════════════════════════════════════════════
 // PROPOSAL DATA
 // ═══════════════════════════════════════════════════
@@ -594,7 +594,7 @@ const DEFAULT_DATA=[
   ["G65MP","Frozen Tanzanite Blue",8,0.1,0.2,0.3,1,1,"2% Take Rate","G65MP"],
 ];
 let currentData=DEFAULT_DATA.map(r=>[...r]);
-
+ 
 // ═══════════════════════════════════════════════════
 // UTILITIES
 // ═══════════════════════════════════════════════════
@@ -613,7 +613,7 @@ function subClass(s){
   return {G06MP:'p-g06',G07MP:'p-g07mp',G07RB:'p-g07rb',G07LX:'p-g07lx',
     G65MP:'p-g65',F95:'p-f95',F96:'p-f96',G05PRIME:'p-prime',G05MP:'p-prime'}[s]||'p-g06';
 }
-
+ 
 // ═══════════════════════════════════════════════════
 // BUILD GRID
 // grid[col][rowIndex 0=row1] = slot object | null
@@ -621,15 +621,15 @@ function subClass(s){
 // ═══════════════════════════════════════════════════
 const MAX=51;
 const AZ_START=18; // A and Z physically start at row 18
-
+ 
 function buildGrid(){
   const grid={F:[],E:[],D:[],C:[],B:[],A:[],Z:[]};
   Object.keys(grid).forEach(k=>{grid[k]=new Array(MAX).fill(null);});
-
+ 
   function fill(col,start,end,obj){
     for(let r=start;r<=Math.min(end,MAX);r++) grid[col][r-1]=obj;
   }
-
+ 
   // 1. G06MP — stack from A(RH)/Z(LH) row 18 upward, overflow to B row 19+
   var azRow=AZ_START-1; // 0-based, starts at index 17 = row 18
   var g06List=currentData.filter(function(r){return r[9]==='G06MP'&&Math.ceil(r[7])>0;});
@@ -657,7 +657,7 @@ function buildGrid(){
     var bside=bi<bHalf?'LH':'RH';
     if(bOvRow<MAX){ grid['B'][bOvRow]=Object.assign({},bOverflow[bi],{side:bside}); bOvRow++; }
   }
-
+ 
 // 2. B column
   const f95c=currentData.filter(r=>r[9]==='F95').map(r=>r[1]);
   const f96c=currentData.filter(r=>r[9]==='F96').map(r=>r[1]);
@@ -667,13 +667,13 @@ function buildGrid(){
   chunkColors(f96c,3).forEach((ch,i)=>{grid['B'][i+9]={sub:'F96',color:'F96',side:'RH',colors:ch};});
   for(let i=12;i<=14;i++) grid['B'][i]={sub:'G05PRIME',color:'PRIMER',side:'LH',colors:['PRIMER']};
   for(let i=15;i<=17;i++) grid['B'][i]={sub:'G05PRIME',color:'PRIMER',side:'RH',colors:['PRIMER']};
-
+ 
   // 3. CDEF stacking — per-group split, no sync, no gaps
   // Each group: flat slot list -> front cdCount slots to CD, back efCount slots to EF
   // Odd groups alternate which side gets the extra slot
   var cdRow=0, efRow=0;
   var lastExtra='ef';
-
+ 
   function stackGroup(sub, filterFn){
     var slots=[];
     currentData.filter(filterFn).forEach(function(r){
@@ -683,7 +683,7 @@ function buildGrid(){
       for(var k=0;k<cnt;k++) slots.push({sub:sub,color:short,colors:[color]});
     });
     if(slots.length===0) return;
-
+ 
     var total=slots.length;
     var cdCount, efCount;
     if(total%2===1){
@@ -692,7 +692,7 @@ function buildGrid(){
     } else {
       cdCount=total>>1; efCount=total>>1;
     }
-
+ 
     // CD: slots[0 .. cdCount-1]
     for(var ci=0; ci<cdCount && cdRow<MAX; ci++){
       var sCD=slots[ci];
@@ -708,19 +708,19 @@ function buildGrid(){
       efRow++;
     }
   }
-
+ 
   stackGroup('G65MP',function(r){return r[9]==='G65MP'&&Math.ceil(r[7])>0;});
   stackGroup('G07MP',function(r){return r[9]==='G07MP'&&Math.ceil(r[7])>0;});
   stackGroup('G07RB',function(r){return r[9]==='G07RB'&&Math.ceil(r[7])>0;});
   stackGroup('G07LX',function(r){return r[9]==='G07LX'&&Math.ceil(r[7])>0;});
-
+ 
   return grid;
 }
-
+ 
 // ═══════════════════════════════════════════════════
 // RENDER LAYOUT — row-based table, all columns aligned
 // ═══════════════════════════════════════════════════
-
+ 
 // Color name → vivid hex for slot label text
 var COLOR_PALETTE = {
   'ALP/WHT':'#6b7280','BLK/SAP':'#1e3a5f','MIN/WHT':'#4b5563',
@@ -749,13 +749,13 @@ function colorForLabel(label){
   }
   return '#1e293b';
 }
-
+ 
 function makeSlotEl(data,rowNum,col){
   const td=document.createElement('td');
   td.style.verticalAlign='top';
   td.style.padding='0';
   td.style.width='88px';
-
+ 
   if(data===null){
     const div=document.createElement('div');
     div.className='slot empty';
@@ -767,7 +767,7 @@ function makeSlotEl(data,rowNum,col){
   } else {
     const div=document.createElement('div');
     div.className=`slot ${subClass(data.sub)}`;
-
+ 
     // Row 1: address + side + prog
     const topLine=document.createElement('div');
     topLine.style.cssText='display:flex;gap:2px;align-items:baseline;justify-content:space-between;';
@@ -785,7 +785,7 @@ function makeSlotEl(data,rowNum,col){
     sp.className='s-prog'; sp.textContent=data.sub; rightMeta.appendChild(sp);
     topLine.appendChild(rightMeta);
     div.appendChild(topLine);
-
+ 
     // Color label(s) with vivid text color
     if(data.colors&&data.colors.length>1){
       const sc=document.createElement('div'); sc.className='s-colors';
@@ -809,7 +809,7 @@ function makeSlotEl(data,rowNum,col){
   }
   return td;
 }
-
+ 
 function makeAbsentCell(){
   const td=document.createElement('td');
   td.className='absent'; td.style.padding='0';
@@ -819,18 +819,18 @@ function makeAbsentCell(){
   td.appendChild(div);
   return td;
 }
-
+ 
 // ═══════════════════════════════════════════════════
 // CURRENT LAYOUT GRID — from CUR_LOCS as-is
 // ═══════════════════════════════════════════════════
 function buildCurrentGrid(){
   const grid={F:[],E:[],D:[],C:[],B:[],A:[],Z:[]};
   Object.keys(grid).forEach(k=>{grid[k]=new Array(MAX).fill(null);});
-
+ 
   function fillG(col,start,end,obj){
     for(let r=start;r<=Math.min(end,MAX);r++) grid[col][r-1]=obj;
   }
-
+ 
   CUR_LOCS.forEach(([,desc,curLoc])=>{
     const addr=parseAddr(curLoc);
     if(!addr) return;
@@ -852,12 +852,12 @@ function buildCurrentGrid(){
   });
   return grid;
 }
-
+ 
 function renderCurrentLayout(){
   const tbl=document.getElementById('currentRackTable');
   tbl.innerHTML='';
   const grid=buildCurrentGrid();
-
+ 
   const COL_DEFS_C=[
     {type:'col',col:'F'},{type:'vpath'},
     {type:'col',col:'E'},{type:'col',col:'D'},{type:'vpath'},
@@ -865,7 +865,7 @@ function renderCurrentLayout(){
     {type:'col',col:'A'},{type:'col',col:'Z'},
   ];
   const ROW_PATH_COLS_C=new Set(['F','E','D','C','B']);
-
+ 
   // Header
   const thead=document.createElement('thead');
   const hdrTr=document.createElement('tr');
@@ -883,7 +883,7 @@ function renderCurrentLayout(){
     }
   });
   thead.appendChild(hdrTr); tbl.appendChild(thead);
-
+ 
   const tbody=document.createElement('tbody');
   for(let rowNum=MAX;rowNum>=1;rowNum--){
     // Pathway row between 21 and 20
@@ -915,7 +915,7 @@ function renderCurrentLayout(){
       });
       tbody.appendChild(pTr);
     }
-
+ 
     const tr=document.createElement('tr');
     const rnTd=document.createElement('td');
     rnTd.className='row-num-cell'; rnTd.textContent=rowNum;
@@ -936,7 +936,7 @@ function renderCurrentLayout(){
     tbody.appendChild(tr);
   }
   tbl.appendChild(tbody);
-
+ 
   let filled=0;
   ['F','E','D','C','B','A','Z'].forEach(col=>{
     const start=(col==='A'||col==='Z')?AZ_START:1;
@@ -944,18 +944,18 @@ function renderCurrentLayout(){
   });
   document.getElementById('currentMsg').textContent=`✓ ${filled} slots occupied (current layout)`;
 }
-
+ 
 function toggleCurrentControls(){
   const el=document.getElementById('currentControls');
   const btn=document.getElementById('toggleCurBtn');
   if(el.style.display==='none'){el.style.display='block';btn.innerHTML='&#9650; Hide Controls';}
   else{el.style.display='none';btn.innerHTML='&#9660; Show Controls';}
 }
-
+ 
 function renderLayout(){
   const tbl=document.getElementById('rackTable');
   tbl.innerHTML='';
-
+ 
   const grid=buildGrid();
   // Physical layout: F |PATH| E D |PATH| C B |PATH| A Z
   // Each entry: col name, or 'PATH' for vertical pathway divider
@@ -984,17 +984,17 @@ function renderLayout(){
     {type:'col',col:'Z',labelSide:'L'},
   ];
   const COLS=COL_DEFS.filter(d=>d.type==='col').map(d=>d.col);
-
+ 
   // 54-inch row pathway applies to B C D E F only (not A Z)
   const ROW_PATH_COLS=new Set(['F','E','D','C','B']);
-
+ 
   // Header row
   const thead=document.createElement('thead');
   const hdrTr=document.createElement('tr');
   const rnTh=document.createElement('th');
   rnTh.style.cssText='width:16px;background:var(--bg);position:sticky;top:0;z-index:10;';
   hdrTr.appendChild(rnTh);
-
+ 
   COL_DEFS.forEach(def=>{
     if(def.type==='vpath'){
       const th=document.createElement('th');
@@ -1007,11 +1007,11 @@ function renderLayout(){
     }
   });
   thead.appendChild(hdrTr); tbl.appendChild(thead);
-
+ 
   const tbody=document.createElement('tbody');
-
+ 
   for(let rowNum=MAX;rowNum>=1;rowNum--){
-
+ 
     // 54-inch pathway between row 21 and row 20 — only for B C D E F cols
     if(rowNum===20){
       const pTr=document.createElement('tr');
@@ -1019,7 +1019,7 @@ function renderLayout(){
       pNum.style.cssText='padding:0;font-size:0.42rem;color:#3a4a6a;text-align:right;padding-right:2px;';
       pNum.textContent='↕';
       pTr.appendChild(pNum);
-
+ 
       COL_DEFS.forEach(def=>{
         const ptd=document.createElement('td');
         ptd.style.cssText='padding:1px 0;';
@@ -1050,12 +1050,12 @@ function renderLayout(){
       });
       tbody.appendChild(pTr);
     }
-
+ 
     const tr=document.createElement('tr');
     const rnTd=document.createElement('td');
     rnTd.className='row-num-cell'; rnTd.textContent=rowNum;
     tr.appendChild(rnTd);
-
+ 
     COL_DEFS.forEach(def=>{
       if(def.type==='vpath'){
         const td=document.createElement('td');
@@ -1072,12 +1072,12 @@ function renderLayout(){
       if(isAbsent){ tr.appendChild(makeAbsentCell()); }
       else { tr.appendChild(makeSlotEl(slotData,rowNum,col)); }
     });
-
+ 
     tbody.appendChild(tr);
   }
-
+ 
   tbl.appendChild(tbody);
-
+ 
   let filled=0;
   COLS.forEach(col=>{
     const start=(col==='A'||col==='Z')?AZ_START:1;
@@ -1085,7 +1085,7 @@ function renderLayout(){
   });
   document.getElementById('layoutMsg').textContent=`✓ ${filled} slots occupied`;
 }
-
+ 
 // ═══════════════════════════════════════════════════
 // NEW LOCATIONS
 // ═══════════════════════════════════════════════════
@@ -1097,7 +1097,7 @@ function recalcLocations(){
   const f96lhC=chunkColors(f96c,3),f96rhC=chunkColors(f96c,3);
   const f95lhA=['B1','B2','B3'],f95rhA=['B4','B5','B6'];
   const f96lhA=['B7','B8','B9'],f96rhA=['B10','B11','B12'];
-
+ 
   CUR_LOCS.forEach(([matnum,desc,curLoc])=>{
     const d=desc.toUpperCase();
     const side=d.includes(' LH ')?'LH':'RH';
@@ -1105,7 +1105,7 @@ function recalcLocations(){
     const isF96=d.includes('F96');
     const isG05=(d.includes('G05MP')||d.includes('G05LCI'))&&!isF95&&!isF96;
     const isPrime=d.includes('PRIME');
-
+ 
     if(isG05){
       const nl=isPrime?(side==='LH'?'B13-B15':'B16-B18'):'REMOVE';
       result.push({matnum,desc,curLoc,newLoc:nl,changed:true});
@@ -1127,7 +1127,7 @@ function recalcLocations(){
       result.push({matnum,desc,curLoc,newLoc:curLoc,changed:false});
     }
   });
-
+ 
   // G65MP new
   const g65=currentData.filter(r=>r[9]==='G65MP'&&Math.ceil(r[7])>0);
   let cdC=1,efC=1,useEF=false;
@@ -1147,7 +1147,7 @@ function recalcLocations(){
   });
   return result;
 }
-
+ 
 function renderLocations(){
   const locs=recalcLocations();
   const body=document.getElementById('locBody'); body.innerHTML='';
@@ -1162,7 +1162,7 @@ function renderLocations(){
     body.appendChild(tr);
   });
 }
-
+ 
 // ═══════════════════════════════════════════════════
 // TABLE
 // ═══════════════════════════════════════════════════
@@ -1196,7 +1196,7 @@ function renderTable(){
     <div class="stat"><div class="stat-label">Oct 2026</div><div class="stat-val">${sumP.toFixed(0)}</div></div>
     <div class="stat"><div class="stat-label">Δ</div><div class="stat-val" style="color:${sumP-sumC>=0?'var(--green)':'var(--red)'}">${(sumP-sumC>=0?'+':'')+(sumP-sumC).toFixed(0)}</div></div>`;
 }
-
+ 
 function downloadExcel(){
   const hdr=['Program','Row Labels','Daily Max','Daily','2DOH','Needed','Current','Proposal','Comment'];
   const ws=XLSX.utils.aoa_to_sheet([hdr,...currentData.map(r=>r.slice(0,9))]);
@@ -1253,7 +1253,7 @@ function toggleHeader(){
     btn.innerHTML='&#9660; Expand';
   }
 }
-
+ 
 function toggleLayoutControls(){
   var el=document.getElementById('layoutControls');
   var btn=document.getElementById('toggleBtn');
@@ -1265,7 +1265,7 @@ function toggleLayoutControls(){
     btn.innerHTML='&#9660; Show Controls';
   }
 }
-
+ 
 function switchTab(name){
   document.querySelectorAll('.tab').forEach((t,i)=>{t.classList.toggle('active',['table','layout','current','locations'][i]===name);});
   document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
@@ -1276,7 +1276,7 @@ function switchTab(name){
 }
 </script>
 </div><!-- end mainApp -->
-
+ 
 <script>
 function doLogin(){
   var id=document.getElementById('loginId').value.trim();
