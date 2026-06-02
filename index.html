@@ -40,7 +40,7 @@ tr:hover td{background:rgba(255,255,255,0.03);}
 .legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
 .legend-item{display:flex;align-items:center;gap:4px;font-size:0.6rem;color:var(--muted);}
 .legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
-.rack-outer{overflow-x:auto;overflow-y:auto;max-height:78vh;padding-bottom:4px;width:fit-content;max-width:100%;background:#f1f5f9;padding:8px;border-radius:6px;}
+.rack-outer{overflow-x:auto;overflow-y:auto;max-height:78vh;padding:8px;background:#f1f5f9;border-radius:6px;display:flex;justify-content:center;}
 
 /* Row-based grid: each row = one horizontal strip across all columns */
 .rack-table{border-collapse:separate;border-spacing:1px 1px;}
@@ -288,7 +288,7 @@ tr:hover td{background:rgba(255,255,255,0.03);}
 <div id="locations-tab" class="tab-content">
   <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center;">
     <strong style="color:var(--accent);font-size:0.78rem;">NEW LOCATIONS — OCT 2026</strong>
-    <button onclick="downloadLocations()">↓ TSV</button>
+    <button onclick="downloadLocations()">↓ CSV</button>
     <span style="color:var(--muted);font-size:0.65rem;">Green=changed · Red=REMOVE · ★=new G65MP</span>
   </div>
   <div class="table-wrap">
@@ -1036,9 +1036,11 @@ function downloadLocations(){
   const locs=recalcLocations();
   const lines=['Material\tDescription\tCurrent Loc\tNew Loc (Oct 2026)\tType',
     ...locs.map(l=>`${l.matnum}\t${l.desc}\t${l.curLoc}\t${l.newLoc}\tROCK PNL${l.isNew?' XNF':''}`)];
-  const blob=new Blob([lines.join('\n')],{type:'text/tab-separated-values'});
+  // Convert TSV to CSV
+  const csvLines=lines.map(l=>l.split('\t').map(f=>'"'+f.replace(/"/g,'""')+'"').join(','));
+  const blob=new Blob([csvLines.join('\n')],{type:'text/csv'});
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
-  a.download='New_Locations_Oct2026.tsv'; a.click();
+  a.download='New_Locations_Oct2026.csv'; a.click();
 }
 function loadDefault(){currentData=DEFAULT_DATA.map(r=>[...r]);renderTable();}
 function loadPasted(){
