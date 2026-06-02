@@ -40,14 +40,13 @@ tr:hover td{background:rgba(255,255,255,0.03);}
 .legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
 .legend-item{display:flex;align-items:center;gap:4px;font-size:0.6rem;color:var(--muted);}
 .legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
-.rack-outer{overflow-x:auto;overflow-y:auto;max-height:78vh;padding:8px;background:#f1f5f9;border-radius:6px;text-align:center;}
+.rack-outer{overflow-x:auto;overflow-y:auto;padding:8px;background:#f1f5f9;border-radius:6px;text-align:center;}
 
 /* Row-based grid: each row = one horizontal strip across all columns */
 .rack-table{border-collapse:separate;border-spacing:1px 1px;}
 .rack-table th.col-hdr{
   width:88px;font-size:0.8rem;font-weight:bold;color:#1e40af;
   letter-spacing:3px;text-align:center;padding:4px 0;
-  position:sticky;top:0;background:var(--bg);z-index:10;
   white-space:nowrap;
 }
 .rack-table td.row-num-cell{
@@ -166,13 +165,19 @@ tr:hover td{background:rgba(255,255,255,0.03);}
 <!-- MAIN APP (hidden until login) -->
 <div id="mainApp" style="display:none;">
 
-<h1>Rocker Layout Dashboard</h1>
-<div class="subtitle">Oct 2026 · Row-aligned · Pathway between rows 20–21 · A/Z start at row 18</div>
-
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
+  <h1 style="margin:0;">Rocker Layout Dashboard</h1>
+  <button class="btn-sec" onclick="toggleHeader()" id="headerToggleBtn" style="font-size:0.6rem;padding:3px 10px;margin-left:auto;">&#9650; Compact</button>
+</div>
+<div id="headerArea" style="overflow:hidden;">
+  <div class="subtitle">Oct 2026 · Row-aligned · Pathway between rows 20–21 · A/Z start at row 18</div>
+</div>
 <div class="tab-bar">
   <div class="tab active" onclick="switchTab('table')">Capacity Table</div>
-  <div class="tab" onclick="switchTab('layout')">Rack Layout</div>
+  <div class="tab" onclick="switchTab('layout')">Rack Layout — Oct 2026</div>
+  <div class="tab" onclick="switchTab('current')">Current Layout</div>
   <div class="tab" onclick="switchTab('locations')">New Locations</div>
+
 </div>
 
 <!-- TABLE TAB -->
@@ -218,11 +223,13 @@ tr:hover td{background:rgba(255,255,255,0.03);}
 
 <!-- LAYOUT TAB -->
 <div id="layout-tab" class="tab-content">
-  <div class="layout-controls">
+  <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">
     <strong style="color:var(--accent);font-size:0.78rem;">ROCKER LINE — OCT 2026</strong>
     <button onclick="renderLayout()">Regenerate</button>
+    <button class="btn-sec" onclick="toggleLayoutControls()" id="toggleBtn" style="font-size:0.65rem;padding:4px 10px;">&#9650; Hide Controls</button>
     <span id="layoutMsg" style="color:var(--muted);font-size:0.65rem;"></span>
   </div>
+  <div id="layoutControls" style="transition:max-height 0.2s ease;overflow:hidden;">
   <div class="legend">
     <div class="legend-item"><div class="legend-dot p-g65"></div>G65MP XNF</div>
     <div class="legend-item"><div class="legend-dot p-f95"></div>F95 LCI</div>
@@ -234,6 +241,10 @@ tr:hover td{background:rgba(255,255,255,0.03);}
     <div class="legend-item"><div class="legend-dot p-g07lx"></div>G07 LUX</div>
     <div class="legend-item"><div class="legend-dot" style="background:#161b22;border:1px solid #30363d;"></div>Empty</div>
     <div class="legend-item"><div class="legend-dot" style="background:repeating-linear-gradient(90deg,#1a2030 0,#1a2030 4px,#0d1117 4px,#0d1117 8px);"></div>Pathway (rows 20–21)</div>
+  </div>
+  </div><!-- end layoutControls -->
+  <div class="rack-outer">
+    <div style="display:inline-block;text-align:left;"><table class="rack-table" id="rackTable"></table></div>
   </div>
   <!-- Layout Logic Info Panel -->
   <div style="
@@ -276,11 +287,39 @@ tr:hover td{background:rgba(255,255,255,0.03);}
     </div>
   </div>
 
-  <div class="rack-outer">
-    <div style="display:inline-block;text-align:left;"><table class="rack-table" id="rackTable"></table></div>
-  </div>
   <div style="margin-top:8px;color:var(--muted);font-size:0.6rem;">
     ⚠ XNF (G65MP) rockers do not fit in old Volvo racks &nbsp;·&nbsp; A/Z columns begin at row 18 (physical start) &nbsp;·&nbsp; Hover slot for detail
+  </div>
+</div>
+
+<!-- CURRENT LAYOUT TAB -->
+<div id="current-tab" class="tab-content">
+  <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">
+    <strong style="color:var(--accent);font-size:0.78rem;">ROCKER LINE — CURRENT (CW23 BASE)</strong>
+    <button onclick="renderCurrentLayout()">Regenerate</button>
+    <button class="btn-sec" onclick="toggleCurrentControls()" id="toggleCurBtn" style="font-size:0.65rem;padding:4px 10px;">&#9650; Hide Controls</button>
+    <span id="currentMsg" style="color:var(--muted);font-size:0.65rem;"></span>
+  </div>
+  <div id="currentControls" style="overflow:hidden;">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot p-g65"></div>XNF (G65MP)</div>
+      <div class="legend-item"><div class="legend-dot p-f95"></div>F95 LCI</div>
+      <div class="legend-item"><div class="legend-dot p-f96"></div>F96 LCI</div>
+      <div class="legend-item"><div class="legend-dot p-prime"></div>G05MP / PRIMER</div>
+      <div class="legend-item"><div class="legend-dot p-g06"></div>G06MP</div>
+      <div class="legend-item"><div class="legend-dot p-g07mp"></div>G07MP</div>
+      <div class="legend-item"><div class="legend-dot p-g07rb"></div>G07 RUNBRD</div>
+      <div class="legend-item"><div class="legend-dot p-g07lx"></div>G07 LUX</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#dde3ea;border:1px solid #b8c0ca;"></div>Empty</div>
+    </div>
+  </div>
+  <div class="rack-outer" style="text-align:center;">
+    <div style="display:inline-block;text-align:left;">
+      <table class="rack-table" id="currentRackTable"></table>
+    </div>
+  </div>
+  <div style="margin-top:8px;color:var(--muted);font-size:0.6rem;">
+    Current layout based on CUR_LOCS data (CW23 base) &nbsp;·&nbsp; XNF rockers do not fit in old Volvo racks
   </div>
 </div>
 
@@ -781,6 +820,138 @@ function makeAbsentCell(){
   return td;
 }
 
+// ═══════════════════════════════════════════════════
+// CURRENT LAYOUT GRID — from CUR_LOCS as-is
+// ═══════════════════════════════════════════════════
+function buildCurrentGrid(){
+  const grid={F:[],E:[],D:[],C:[],B:[],A:[],Z:[]};
+  Object.keys(grid).forEach(k=>{grid[k]=new Array(MAX).fill(null);});
+
+  function fillG(col,start,end,obj){
+    for(let r=start;r<=Math.min(end,MAX);r++) grid[col][r-1]=obj;
+  }
+
+  CUR_LOCS.forEach(([,desc,curLoc])=>{
+    const addr=parseAddr(curLoc);
+    if(!addr) return;
+    const d=desc.toUpperCase();
+    const side=d.includes(' LH ')?'LH':'RH';
+    let sub='G06MP';
+    if(d.includes('G05MP')||d.includes('G05LCI')) sub='G05MP';
+    else if(d.includes('F95')&&!d.includes('G06')&&!d.includes('G07')) sub='F95';
+    else if(d.includes('F96')) sub='F96';
+    else if(d.includes('G07')&&d.includes('LUX')) sub='G07LX';
+    else if(d.includes('G07')&&d.includes('RUNBRD')) sub='G07RB';
+    else if(d.includes('G07MP')||(d.includes('G07')&&d.includes('LCI MP'))) sub='G07MP';
+    else if(d.includes('G07')&&d.includes('LCI')) sub='G07RB';
+    else if(d.includes('G06')) sub='G06MP';
+    const cm=d.match(/PNT\s+([A-Z/]+)/)||d.match(/PNPRIME/);
+    const color=cm?(cm[0]==='PNPRIME'?'PRIMER':cm[1]):'PRIMER';
+    const short=color.length>10?color.substring(0,10)+'…':color;
+    fillG(addr.col,addr.start,addr.end,{sub,color:short,side,colors:[color]});
+  });
+  return grid;
+}
+
+function renderCurrentLayout(){
+  const tbl=document.getElementById('currentRackTable');
+  tbl.innerHTML='';
+  const grid=buildCurrentGrid();
+
+  const COL_DEFS_C=[
+    {type:'col',col:'F'},{type:'vpath'},
+    {type:'col',col:'E'},{type:'col',col:'D'},{type:'vpath'},
+    {type:'col',col:'C'},{type:'col',col:'B'},{type:'vpath'},
+    {type:'col',col:'A'},{type:'col',col:'Z'},
+  ];
+  const ROW_PATH_COLS_C=new Set(['F','E','D','C','B']);
+
+  // Header
+  const thead=document.createElement('thead');
+  const hdrTr=document.createElement('tr');
+  const rnTh=document.createElement('th');
+  rnTh.style.cssText='width:14px;background:#f1f5f9;padding:0;';
+  hdrTr.appendChild(rnTh);
+  COL_DEFS_C.forEach(def=>{
+    if(def.type==='vpath'){
+      const th=document.createElement('th');
+      th.style.cssText='width:10px;background:#f1f5f9;padding:0;';
+      hdrTr.appendChild(th);
+    } else {
+      const th=document.createElement('th');
+      th.className='col-hdr'; th.textContent=def.col; hdrTr.appendChild(th);
+    }
+  });
+  thead.appendChild(hdrTr); tbl.appendChild(thead);
+
+  const tbody=document.createElement('tbody');
+  for(let rowNum=MAX;rowNum>=1;rowNum--){
+    // Pathway row between 21 and 20
+    if(rowNum===20){
+      const pTr=document.createElement('tr');
+      const pNum=document.createElement('td');
+      pNum.style.cssText='padding:0;font-size:0.42rem;color:#94a3b8;text-align:right;padding-right:2px;';
+      pNum.textContent='↕';
+      pTr.appendChild(pNum);
+      COL_DEFS_C.forEach(def=>{
+        const ptd=document.createElement('td');
+        ptd.style.cssText='padding:1px 0;';
+        if(def.type==='vpath'){ptd.style.width='10px';}
+        else if(ROW_PATH_COLS_C.has(def.col)){
+          const inner=document.createElement('div');
+          inner.style.cssText='height:10px;border-radius:2px;background:repeating-linear-gradient(90deg,#94a3b8 0px,#94a3b8 5px,#e2e8f0 5px,#e2e8f0 11px);';
+          if(def.col==='D'){
+            inner.style.position='relative';
+            const lbl=document.createElement('span');
+            lbl.style.cssText='position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:0.42rem;color:#3a506a;white-space:nowrap;letter-spacing:1px;';
+            lbl.textContent='54" PATHWAY';
+            inner.appendChild(lbl);
+          }
+          ptd.appendChild(inner);
+        } else {
+          const inner=document.createElement('div'); inner.style.height='10px'; ptd.appendChild(inner);
+        }
+        pTr.appendChild(ptd);
+      });
+      tbody.appendChild(pTr);
+    }
+
+    const tr=document.createElement('tr');
+    const rnTd=document.createElement('td');
+    rnTd.className='row-num-cell'; rnTd.textContent=rowNum;
+    tr.appendChild(rnTd);
+    COL_DEFS_C.forEach(def=>{
+      if(def.type==='vpath'){
+        const td=document.createElement('td');
+        td.style.cssText='width:10px;padding:0 1px;vertical-align:top;';
+        const inner=document.createElement('div');
+        inner.style.cssText='width:8px;min-height:61px;height:100%;border-radius:2px;background:repeating-linear-gradient(180deg,#94a3b8 0px,#94a3b8 3px,#cbd5e1 3px,#cbd5e1 7px);opacity:0.9;';
+        td.appendChild(inner); tr.appendChild(td); return;
+      }
+      const col=def.col;
+      if((col==='A'||col==='Z')&&rowNum<AZ_START){tr.appendChild(makeAbsentCell());return;}
+      const slotData=grid[col][rowNum-1];
+      tr.appendChild(makeSlotEl(slotData,rowNum,col));
+    });
+    tbody.appendChild(tr);
+  }
+  tbl.appendChild(tbody);
+
+  let filled=0;
+  ['F','E','D','C','B','A','Z'].forEach(col=>{
+    const start=(col==='A'||col==='Z')?AZ_START:1;
+    for(let r=start;r<=MAX;r++) if(grid[col][r-1]) filled++;
+  });
+  document.getElementById('currentMsg').textContent=`✓ ${filled} slots occupied (current layout)`;
+}
+
+function toggleCurrentControls(){
+  const el=document.getElementById('currentControls');
+  const btn=document.getElementById('toggleCurBtn');
+  if(el.style.display==='none'){el.style.display='block';btn.innerHTML='&#9650; Hide Controls';}
+  else{el.style.display='none';btn.innerHTML='&#9660; Show Controls';}
+}
+
 function renderLayout(){
   const tbl=document.getElementById('rackTable');
   tbl.innerHTML='';
@@ -827,7 +998,7 @@ function renderLayout(){
   COL_DEFS.forEach(def=>{
     if(def.type==='vpath'){
       const th=document.createElement('th');
-      th.style.cssText='width:10px;background:#f1f5f9;position:sticky;top:0;z-index:10;padding:0;';
+      th.style.cssText='width:10px;background:#f1f5f9;padding:0;';
       hdrTr.appendChild(th);
     } else {
       const th=document.createElement('th');
@@ -1071,11 +1242,36 @@ function loadPasted(){
   currentData=parsed; renderTable();
   document.getElementById('layoutMsg').textContent='⟳ Data updated — click Regenerate';
 }
+function toggleHeader(){
+  var el=document.getElementById('headerArea');
+  var btn=document.getElementById('headerToggleBtn');
+  if(el.style.display==='none'){
+    el.style.display='block';
+    btn.innerHTML='&#9650; Compact';
+  } else {
+    el.style.display='none';
+    btn.innerHTML='&#9660; Expand';
+  }
+}
+
+function toggleLayoutControls(){
+  var el=document.getElementById('layoutControls');
+  var btn=document.getElementById('toggleBtn');
+  if(el.style.display==='none'){
+    el.style.display='block';
+    btn.innerHTML='&#9650; Hide Controls';
+  } else {
+    el.style.display='none';
+    btn.innerHTML='&#9660; Show Controls';
+  }
+}
+
 function switchTab(name){
-  document.querySelectorAll('.tab').forEach((t,i)=>{t.classList.toggle('active',['table','layout','locations'][i]===name);});
+  document.querySelectorAll('.tab').forEach((t,i)=>{t.classList.toggle('active',['table','layout','current','locations'][i]===name);});
   document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
   document.getElementById(name+'-tab').classList.add('active');
   if(name==='layout') renderLayout();
+  if(name==='current') renderCurrentLayout();
   if(name==='locations') renderLocations();
 }
 </script>
