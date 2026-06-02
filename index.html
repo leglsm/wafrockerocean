@@ -40,7 +40,7 @@ tr:hover td{background:rgba(255,255,255,0.03);}
 .legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
 .legend-item{display:flex;align-items:center;gap:4px;font-size:0.6rem;color:var(--muted);}
 .legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
-.rack-outer{overflow-x:auto;overflow-y:auto;max-height:78vh;padding:8px;background:#f1f5f9;border-radius:6px;display:flex;justify-content:center;}
+.rack-outer{overflow-x:auto;overflow-y:auto;max-height:78vh;padding:8px;background:#f1f5f9;border-radius:6px;text-align:center;}
 
 /* Row-based grid: each row = one horizontal strip across all columns */
 .rack-table{border-collapse:separate;border-spacing:1px 1px;}
@@ -277,7 +277,7 @@ tr:hover td{background:rgba(255,255,255,0.03);}
   </div>
 
   <div class="rack-outer">
-    <table class="rack-table" id="rackTable"></table>
+    <div style="display:inline-block;text-align:left;"><table class="rack-table" id="rackTable"></table></div>
   </div>
   <div style="margin-top:8px;color:var(--muted);font-size:0.6rem;">
     ⚠ XNF (G65MP) rockers do not fit in old Volvo racks &nbsp;·&nbsp; A/Z columns begin at row 18 (physical start) &nbsp;·&nbsp; Hover slot for detail
